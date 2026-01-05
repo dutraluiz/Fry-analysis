@@ -6,7 +6,7 @@ Este repositório apresenta uma implementação em Python da **análise de Fry**
 aplicada ao estudo de **controles estruturais na distribuição espacial de depósitos minerais**.
 
 A abordagem segue o uso moderno do método de Fry como uma técnica geométrica
-de autocorrelação espacial, conforme aplicado por autores como [Carranza (2009)](https://doi.org/10.1007/s00126-009-0250-6) e [Haddad-Martim et al. (2017)(http://dx.doi.org/10.1016/j.oregeorev.2016.09.038).
+de autocorrelação espacial, conforme aplicado por autores como [Carranza (2009)](https://doi.org/10.1007/s00126-009-0250-6) e [Haddad-Martim et al. (2017)](http://dx.doi.org/10.1016/j.oregeorev.2016.09.038).
 
 ### Objetivos
 - Investigar direções preferenciais entre depósitos minerais
@@ -38,7 +38,7 @@ applied to the investigation of **structural controls on the spatial distributio
 of mineral deposits**.
 
 The methodology follows the modern use of the Fry method as a geometrical
-spatial autocorrelation technique, as described by [Carranza (2009)](https://doi.org/10.1007/s00126-009-0250-6) and [Haddad-Martim et al. (2017)(http://dx.doi.org/10.1016/j.oregeorev.2016.09.038).
+spatial autocorrelation technique, as described by [Carranza (2009)](https://doi.org/10.1007/s00126-009-0250-6) and [Haddad-Martim et al. (2017)](http://dx.doi.org/10.1016/j.oregeorev.2016.09.038).
 
 ### Objectives
 - Identify preferential orientations between mineral deposits
