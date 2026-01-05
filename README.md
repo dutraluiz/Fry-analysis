@@ -25,9 +25,9 @@ de autocorrelação espacial, conforme aplicado por autores como [Carranza (2009
 Arquivo Excel contendo coordenadas UTM (x, y) dos depósitos.
 
 ### Saídas
-- Fry plot
-- Gráfico Distance × Probability of one neighbour
-- Rose diagrams por escala
+- Diagrama Fry
+- Gráfico Distância × Probabilidade do vizinho mais próximo
+- Estereograma por escala
 
 ---
 
