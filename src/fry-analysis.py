@@ -17,7 +17,7 @@ os.makedirs(FIG_DIR, exist_ok=True)
 # ==================================================
 # Excel file must contain columns: x, y (coordinates in meters)
 # Arquivo Excel deve conter colunas: x, y (coordenadas em metros)
-df = pd.read_excel("Deposits_example.xlsx")
+df = pd.read_excel("Deposits_example.xls")
 
 pts = df[["X", "Y"]].values
 n = len(pts)
