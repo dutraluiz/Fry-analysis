@@ -25,48 +25,59 @@ n = len(pts)
 print(f"Number of deposits / Número de depósitos: {n}")
 
 # ==================================================
-# 2. NEAREST NEIGHBOUR ANALYSIS
-# 2. Análise do vizinho mais próximo
+# 2. NEAREST NEIGHBOUR ANALYSIS (Carranza et al., 2009)
+# 2. Análise do vizinho mais próximo (Carranza et al., 2009)
 # ==================================================
 # Distance matrix between all points
 # Matriz de distâncias entre todos os pontos
 Dmat = distance_matrix(pts, pts)
 np.fill_diagonal(Dmat, np.inf)
 
-# Nearest neighbour distance for each point
-# Distância do vizinho mais próximo para cada ponto
-nn_dist = Dmat.min(axis=1)
+# Maximum nearest-neighbour distance
+# Distância máxima do vizinho mais próximo
+r = np.linspace(0, Dmat[Dmat < np.inf].max(), 300)
 
-# Distance range
-# Intervalo de distâncias
-r = np.linspace(0, nn_dist.max(), 200)
-
-# Probability of only one neighbour within distance r
-# Probabilidade de apenas um vizinho dentro da distância r
-P1 = []
+# Cumulative probability of having ≤ 1 neighbour
+# Probabilidade cumulativa de ter ≤ 1 vizinho
+P_cum = []
 
 for ri in r:
     counts = (Dmat <= ri).sum(axis=1)
-    P1.append(np.mean(counts == 1))
+    P_cum.append(np.mean(counts >= 1))
 
-P1 = np.array(P1)
+P_cum = np.array(P_cum)
 
-# Plot: Distance vs Probability
-# Gráfico: Distância vs Probabilidade
-plt.figure(figsize=(6, 4))
-plt.plot(r / 1000, P1)
-plt.xlabel("Distance (km)")
-plt.ylabel("Probability of one neighbour")
-plt.title("Nearest neighbour probability")
+# Characteristic distance: maximum slope / inflection
+# (often interpreted visually, as in Carranza et al. (2009))
+## This distance represents the minimum spatial scale at which most deposits cease to be spatially isolated.
+## Esse valor representa a escala espacial mínima a partir da qual a maioria dos depósitos deixa de estar isolada.
+grad = np.gradient(P_cum)
+idx_char = np.argmax(grad)
+D_char = r[idx_char]
+P_char = P_cum[idx_char]
+
+print(f"Characteristic distance (Carranza): {D_char/1000:.2f} km")
+
+# Plot cumulative probability
+# Probabilidade cumulativa
+plt.figure(figsize=(6,4))
+plt.plot(r / 1000, P_cum, color="black")
+
+plt.vlines(D_char / 1000, ymin=0, ymax=P_char, color="red",
+           linestyles="dashed", linewidth=1.5)
+plt.scatter(D_char / 1000, P_char, color="red", s=50, zorder=5)
+plt.annotate(f"D\u2095 = {D_char/1000:.1f} km", xy=(D_char / 1000, P_char),
+             xytext=(D_char / 1000 + 5, P_char - 0.15),
+             arrowprops=dict(arrowstyle="->", color="red"), fontsize=9)
+plt.xlabel("Distance (km) from every P")
+plt.ylabel("Probability of one neighbouring P")
+plt.title("Nearest neighbour cumulative probability")
 plt.grid(True)
 
 plt.savefig(os.path.join(FIG_DIR, "Fig 1 - Nearest neighbor probability.png"), dpi=300, bbox_inches="tight")
 plt.show()
 
-# Characteristic distance (maximum probability of one neighbour)
-# Distância característica (máxima probabilidade de um vizinho)
-D_char = r[np.argmax(P1)]
-print(f"Characteristic distance / Distância característica: {D_char/1000:.2f} km")
+
 
 # ==================================================
 # 3. FRY POINTS
@@ -150,4 +161,4 @@ rose_diagram(az, os.path.join(FIG_DIR, "Fig 3 - Rose diagram all Fry points.png"
 # Pares locais (≤ distância característica)
 mask_local = dist_fry <= D_char
 
-rose_diagram(az[mask_local], os.path.join(FIG_DIR, "Fig 4 - Rose diagram local Fry points.png"), f"Rose diagram – Fry points ≤ {D_char/1000:.1f} km"D)
+rose_diagram(az[mask_local], os.path.join(FIG_DIR, "Fig 4 - Rose diagram local Fry points.png"), f"Rose diagram – Fry points ≤ {D_char/1000:.1f} km")
